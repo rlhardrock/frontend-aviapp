@@ -22,4 +22,5 @@ export const routes: Routes = [
     { path: 'companies', loadComponent: () => import('./features/companies/company-list.page').then(m => m.CompanyListPage), },
     { path: 'companies/new', loadComponent: () => import('./features/companies/company-form.page').then(m => m.CompanyFormPage), },
     { path: 'companies/resumen', loadComponent: () => import('./features/companies/company-resumen.page').then(m => m.CompanyResumenPage), },
+    
 ];
