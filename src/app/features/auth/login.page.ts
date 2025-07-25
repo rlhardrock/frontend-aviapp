@@ -23,22 +23,22 @@ import { HttpClient } from '@angular/common/http';
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Iniciar sesión AVIAPP</h2>
 
     <div class="mb-4">
-      <label class="block mb-1 text-sm font-medium text-gray-700">Email: sena2025-sena.com</label>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Email:</label>
       <input
         type="email"
         formControlName="email"
         class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="email@domain.com"
+        placeholder="sena2025@sena.com"
       />
     </div>
 
     <div class="mb-6">
-      <label class="block mb-1 text-sm font-medium text-gray-700">Contraseña: soysena123</label>
+      <label class="block mb-1 text-sm font-medium text-gray-700">Contraseña:</label>
       <input
         type="password"
         formControlName="password"
         class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="********"
+        placeholder="soysena123"
       />
     </div>
 
@@ -64,8 +64,8 @@ export class LoginPage {
 
   onSubmit() {
     const { email, password } = this.form.value;
-    const validEmail = 'admin@aves.com';
-    const validPassword = '123456';
+    const validEmail = 'sena2025@sena.com';
+    const validPassword = 'soysena123';
 
     if (email === validEmail && password === validPassword) {
       // Simular sesión
