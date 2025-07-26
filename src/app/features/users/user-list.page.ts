@@ -19,32 +19,39 @@ import { UserService } from '../../shared/services/user.service';
       </div>
       <br>
       <!-- Encabezados -->
-      <div class="grid grid-cols-9 gap-2 bg-gray-200 p-3 font-semibold rounded">
-        <div>Licencia Prof.</div>
-        <div>Nombre</div>
-        <div>Apellido</div>
-        <div>Teléfono</div>
-        <div>NIT</div>
-        <div>Email</div>
-        <div>Rol</div>
-        <div>Estado</div>
-        <div class="text-center">Acciones</div>
-      </div>
-
-      <!-- Filas de usuarios -->
-      <div *ngFor="let user of users" class="grid grid-cols-9 gap-2 items-center bg-gray-50 p-3 mb-2 rounded border">
-        <div>{{ user.licenseSup }}</div>
-        <div>{{ user.name }}</div>
-        <div>{{ user.lastName }}</div>
-        <div>{{ user.phone }}</div>
-        <div>{{ user.taxpayer }}</div>
-        <div>{{ user.email }}</div>
-        <div>{{ user.role }}</div>
-        <div>{{ user.status }}</div>
-        <div class="flex gap-2 justify-center">
-          <button disabled class="text-yellow-600 hover:underline">Editar</button>
-          <button disabled class="text-red-600 hover:underline">Eliminar</button>
-        </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto border-collapse rounded overflow-hidden">
+          <thead class="bg-gray-200 text-left font-semibold">
+            <tr>
+              <th class="p-3">Licencia Prof.</th>
+              <th class="p-3">Nombre</th>
+              <th class="p-3">Apellido</th>
+              <th class="p-3">Teléfono</th>
+              <th class="p-3">NIT</th>
+              <th class="p-3">Email</th>
+              <th class="p-3">Rol</th>
+              <th class="p-3">Estado</th>
+              <th class="p-3 text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <p class="text-red-600" *ngIf="!users || users.length === 0">No se encontraron usuarios.</p>
+            <tr *ngFor="let user of users" class="hover:bg-gray-50 border-b">
+              <td class="p-3">{{ user.licenseSup }}</td>
+              <td class="p-3">{{ user.name }}</td>
+              <td class="p-3">{{ user.lastName }}</td>
+              <td class="p-3">{{ user.phone }}</td>
+              <td class="p-3">{{ user.taxpayer }}</td>
+              <td class="p-3">{{ user.email }}</td>
+              <td class="p-3">{{ user.role }}</td>
+              <td class="p-3">{{ user.status }}</td>
+              <td class="p-3 text-center">
+                <button disabled class="text-yellow-600 hover:underline">Editar</button>
+                <button disabled class="text-red-600 hover:underline ml-2">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -59,6 +66,7 @@ export class UserListPage implements OnInit {
     this.userService.getUsers().subscribe({
       next: (data: any) => {
         console.log('Respuesta del backend:', data);
+        console.log('Usuarios:', data.data);
         this.users = data.data;
       },
       error: (err) => console.error('Error cargando usuarios', err)
