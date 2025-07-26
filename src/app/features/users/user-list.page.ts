@@ -64,12 +64,17 @@ export class UserListPage implements OnInit {
 
   ngOnInit() {
     this.userService.getUsers().subscribe({
-      next: (data) => {
-        console.log('Respuesta completa:', data);
-        this.users = data.users;
-        console.log('Usuarios:', this.users);
+      next: (res) => {
+        console.log('Respuesta del backend:', res);
+        if (res && res.users) {
+          this.users = res.users;
+        } else {
+          console.warn('La propiedad "users" no está en la respuesta:', res);
+        }
       },
-      error: (err) => console.error('Error cargando usuarios', err)
+      error: (err) => {
+        console.error('Error al obtener usuarios:', err);
+      }
     });
   }
 }
