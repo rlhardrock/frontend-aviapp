@@ -64,10 +64,9 @@ export class UserListPage implements OnInit {
 
   ngOnInit() {
     this.userService.getUsers().subscribe({
-      next: (data: any) => {
-        console.log('Respuesta del backend:', data);
-        console.log('Usuarios:', data.data);
-        this.users = data.data;
+      next: (users) => {
+        this.users = users;
+        console.log('Usuarios:', users);
       },
       error: (err) => console.error('Error cargando usuarios', err)
     });
