@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   standalone: true,
@@ -50,13 +51,14 @@ import { RouterModule } from '@angular/router';
   `
 })
 export class UserListPage implements OnInit {
-  users = [
-    { licenseSup: 1, role: 'AAAA', name:  'Louis', lastName: 'Rex', taxpayer: 2222222, email: 'admin@aves.com', phone: 3117777777, status: 'ZZZ' },
-    { licenseSup: 2, role: 'BBBB', name:  'Juanis', lastName: 'Jumis', taxpayer: 2222222, email: 'receptor@aves.com', phone: 3116666666, status: 'YYY' },
-    { licenseSup: 3, role: 'CCCC', name:  'Perris', lastName: 'Panchis', taxpayer: 2222222, email: 'supervisor@aves.com', phone: 3118888888, status: 'XXX' },
-  ];
+  users: any[] = [];
+
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
-    // Aquí iría el fetch real en el futuro
+    this.userService.getUsers().subscribe({
+      next: (data) => this.users = data,
+      error: (err) => console.error('Error cargando usuarios', err)
+    });
   }
 }
