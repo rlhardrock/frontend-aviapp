@@ -93,8 +93,11 @@ model Benefit
   diferencialAvesEntrega       
 
 
-Controller {/avi}
-Mapped {/avi, GET} 
+AppController {/avi}: 
+Mapped {/avi, GET}  
+
+AuthController {/avi/auth}: 
+Mapped {/avi/auth/login, POST}  
 
 UsersController {/avi/users}
 Mapped {/avi/users/user/register, POST} 
