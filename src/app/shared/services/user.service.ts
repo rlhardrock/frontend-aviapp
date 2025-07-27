@@ -8,7 +8,7 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<any> {
+  getUsers(): Observable<any[]> {
     return this.http
     .get<any>(`${this.api}/users/user/list`)
     .pipe(
