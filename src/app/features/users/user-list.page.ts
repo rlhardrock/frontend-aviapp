@@ -58,11 +58,16 @@ import { UserService } from '../../shared/services/user.service';
   `
 })
 export class UserListPage implements OnInit {
+  data: any = {};
   users: any[] = [];
 
   constructor(private userService: UserService) {}
 
-  ngOnInit() {
+  ngOnInit(){
+    this.loadUsers();
+  }
+
+  loadUsers(page = 1) {
     this.userService.getUsers().subscribe({
       next: (users) => {
         console.log('Respuesta del backend:', users);
