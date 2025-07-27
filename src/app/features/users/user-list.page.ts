@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../shared/services/user.service';
+import { UserListInter } from '../../interfaces/user-list-inter';
 
 @Component({
   standalone: true,
@@ -87,11 +88,11 @@ export class UserListPage implements OnInit {
   ngOnInit(){
     this.loadUsers(this.page);
   }
-
+  
   loadUsers(page: number) {
     if (page < 1 || page > this.totalPages) return; // evitar llamadas innecesarias
-    this.userService.getUsers(page, this.limit).subscribe({
-      next: (res: any) => {
+    this.userService.getUsers(this.page, this.limit).subscribe({
+      next: (res: UserListInter) => {
         console.log('Respuesta del backend:', res);
         this.users = res.users || [];
         this.page = res.page;
