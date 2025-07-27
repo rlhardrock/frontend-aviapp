@@ -8,9 +8,9 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(page = 1, limit = 10): Observable<any[]> {
+  getUsers(page: number = 1, limit: number = 7): Observable<any[]> {
     return this.http
-    .get<any>(`${this.api}/users/user/list`)
+    .get<any>(`${this.api}/users/user/list?page=${page}&limit=${limit}`)
     .pipe(
       tap(res => console.log('Respuesta del backend:', res)),
       map(res => res.users)

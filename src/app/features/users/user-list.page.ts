@@ -54,17 +54,17 @@ import { UserService } from '../../shared/services/user.service';
         </table>
         <!-- Botones -->
         <div class="flex justify-between items-center mt-4">
-        <span>Página {{ data.page }} de {{ data.totalPages }}</span>
+        <span>Página {{ page }} de {{ totalPages }}</span>
           <div>
             <button 
-              (click)="loadUsers(data.page - 1)" 
-              [disabled]="data.page === 1"
+              (click)="loadUsers(page - 1)" 
+              [disabled]="page === 1"
               class="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400">
               Anterior
             </button>
             <button 
-              (click)="loadUsers(data.page + 1)" 
-              [disabled]="data.page === data.totalPages"
+              (click)="loadUsers(page + 1)" 
+              [disabled]="page === totalPages"
               class="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400 ml-2">
               Siguiente
             </button>
@@ -78,18 +78,23 @@ import { UserService } from '../../shared/services/user.service';
 export class UserListPage implements OnInit {
   data: any = {};
   users: any[] = [];
+  page = 1;
+  limit = 7;
+  totalPages = 1;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(){
-    this.loadUsers();
+    this.loadUsers(this.page);
   }
 
-  loadUsers(page = 1) {
-    this.userService.getUsers().subscribe({
-      next: (users) => {
+  loadUsers(page: number) {
+    this.userService.getUsers(page, this.limit).subscribe({
+      next: (users: any) => {
         console.log('Respuesta del backend:', users);
-        this.users = users;
+        this.users = users || [];
+        this.page = users.page;
+        this.totalPages = users.totalPages;
       },
       error: (err) => {
         console.error('Error al obtener usuarios:', err);
