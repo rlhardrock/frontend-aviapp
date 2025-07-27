@@ -54,18 +54,18 @@ import { UserListInter } from '../../interfaces/user-list-inter';
           </tbody>
         </table>
         <!-- Botones -->
-        <div *ngIf="totalPages > 1" class="flex justify-between items-center mt-4">
-        <span>Página {{ page }} de {{ totalPages }}</span>
+        <div class="flex justify-between items-center mt-4">
+        <span>Página X de Z Pages </span>
           <div>
             <button 
-              (click)="loadUsers(page - 1)" 
-              [disabled]="page === 1"
+              (click)="loadUsers()" 
+              [disabled]=""
               class="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400">
               Anterior
             </button>
             <button 
-              (click)="loadUsers(page + 1)" 
-              [disabled]="page === totalPages"
+              (click)="loadUsers()" 
+              [disabled]=""
               class="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400 ml-2">
               Siguiente
             </button>
@@ -79,24 +79,18 @@ import { UserListInter } from '../../interfaces/user-list-inter';
 export class UserListPage implements OnInit {
   data: any = {};
   users: any[] = [];
-  page = 1;
-  limit = 7;
-  totalPages = 1;
-
+  
   constructor(private userService: UserService) {}
 
   ngOnInit(){
-    this.loadUsers(this.page);
+    this.loadUsers();
   }
   
-  loadUsers(page: number) {
-    if (page < 1 || page > this.totalPages) return; // evitar llamadas innecesarias
-    this.userService.getUsers(this.page, this.limit).subscribe({
-      next: (res: UserListInter) => {
-        console.log('Respuesta del backend:', res);
-        this.users = res.users || [];
-        this.page = res.page;
-        this.totalPages = res.totalPages;
+  loadUsers() {
+    this.userService.getUsers().subscribe({
+      next: (users: any) => {
+        console.log('Respuesta del backend:', users);
+        this.users = users || [];
       },
       error: (err) => {
         console.error('Error al obtener usuarios:', err);

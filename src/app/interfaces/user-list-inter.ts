@@ -10,7 +10,7 @@ export interface User {
     password: string;
     role: string;
     status: string;
-    dateBirth: string;
+    dateBirth: Date;
     
   }
   
