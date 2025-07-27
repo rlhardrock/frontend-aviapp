@@ -53,7 +53,7 @@ import { UserService } from '../../shared/services/user.service';
           </tbody>
         </table>
         <!-- Botones -->
-        <div class="flex justify-between items-center mt-4">
+        <div *ngIf="totalPages > 1" class="flex justify-between items-center mt-4">
         <span>Página {{ page }} de {{ totalPages }}</span>
           <div>
             <button 
@@ -89,12 +89,13 @@ export class UserListPage implements OnInit {
   }
 
   loadUsers(page: number) {
+    if (page < 1 || page > this.totalPages) return; // evitar llamadas innecesarias
     this.userService.getUsers(page, this.limit).subscribe({
-      next: (users: any) => {
-        console.log('Respuesta del backend:', users);
-        this.users = users || [];
-        this.page = users.page;
-        this.totalPages = users.totalPages;
+      next: (res: any) => {
+        console.log('Respuesta del backend:', res);
+        this.users = res.users || [];
+        this.page = res.page;
+        this.totalPages = res.totalPages;
       },
       error: (err) => {
         console.error('Error al obtener usuarios:', err);
