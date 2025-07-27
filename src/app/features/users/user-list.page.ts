@@ -52,6 +52,24 @@ import { UserService } from '../../shared/services/user.service';
             </tr>
           </tbody>
         </table>
+        <!-- Botones -->
+        <div class="flex justify-between items-center mt-4">
+        <span>Página {{ data.page }} de {{ data.totalPages }}</span>
+          <div>
+            <button 
+              (click)="loadUsers(data.page - 1)" 
+              [disabled]="data.page === 1"
+              class="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400">
+              Anterior
+            </button>
+            <button 
+              (click)="loadUsers(data.page + 1)" 
+              [disabled]="data.page === data.totalPages"
+              class="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400 ml-2">
+              Siguiente
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
