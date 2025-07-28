@@ -89,7 +89,7 @@ export class UserListPage implements OnInit {
   loadUsers() {
     this.userService.getUsers().subscribe({
       next: (users: any) => {
-        console.log('Respuesta del backend:', users);
+        console.log('Respuesta del backend user-list:', users);
         this.users = users || [];
       },
       error: (err) => {
@@ -97,4 +97,19 @@ export class UserListPage implements OnInit {
       }
     });
   }
+
+  
+  /* loadPagination() {
+    this.userService.getUsers().subscribe({
+      next: (res: any) => {
+        this.totalItems = res.total;
+        this.page = res.page;
+        this.limit = res.limit;
+        this.totalPages = Math.ceil(res.total / res.limit);
+      },
+      error: (err) => {
+        console.error('Error al obtener paginación:', err);
+      }
+    });
+  } */
 }

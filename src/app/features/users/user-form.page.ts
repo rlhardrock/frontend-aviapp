@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   standalone: true,
@@ -11,7 +12,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
     <div class="p-6 max-w-3xl mx-auto">
       <h2 class="text-2xl font-semibold mb-6">Crear nuevo usuario</h2>
 
-      <form [formGroup]="form" (ngSubmit)="submit()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="md:col-span-2">
           <label class="block mb-2 font-medium">Sexo</label>
           <div class="flex items-center gap-6">
@@ -118,10 +119,11 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
         </div>
 
         <!-- Botón enviar -->
-        <div class="md:col-span-2 mt-4">
+        <div  *ngIf="error" class="md:col-span-2 mt-4">
           <button type="submit"
-                  [disabled]="form.invalid"
+                  [disabled]="loading"
                   class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+                  {{ loading ? 'Registrando...' : 'Registrar usuario' }}
             Guardar
           </button>
         </div>
@@ -132,30 +134,53 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
   `
 })
 export class UserFormPage {
-  form = new FormGroup({
-    sex: new FormControl('', Validators.required),
-    licenseSup: new FormControl('', Validators.required),
-    name: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    phone: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^\d{7,15}$/)
-    ]),
-    taxpayer: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6)
-    ]),
-    role: new FormControl('', Validators.required),
-    status: new FormControl('', Validators.required),
-    dateBirth: new FormControl('', Validators.required),
-  });
 
-  constructor(private router: Router) {}
+  userForm: FormGroup;
+  loading: false;
+  error: string | null = null;
+  
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private router: Router
+  ) {
+      this.userForm = this.fb.group({
+        sex:  ['', Validators.required],
+        licenseSup:  ['', Validators.required],
+        name: ['', Validators.required],
+        lastName:  ['', Validators.required],
+        phone:  ['', 
+          Validators.required,
+          Validators.pattern(/^\d{7,15}$/)
+        ],
+        taxpayer: ['', Validators.required],
+        email:  ['', [Validators.required, Validators.email]],
+        password:  ['', [
+          Validators.required,
+          Validators.minLength(6)
+        ]],
+        role:  ['', Validators.required],
+        status:  ['', Validators.required],
+        dateBirth:  ['', Validators.required],
+      });
+    } 
 
-  submit() {
-    const data = this.form.value;
-    this.router.navigate(['/users/resumen'], { state: data });
+  onSubmit() {
+    if (this.userForm.invalid) return;
+
+    this.loading = true;
+    this.error = null;
+
+    this.userService.registerUser(this.userForm.value).subscribe({
+      next: (res) => {
+        console.log('Usuario creado:', res);
+        this.router.navigate(['/users']);
+      },
+      error: (err) => {
+        console.error('Error al registrar usuario:', err);
+        this.error = 'Error al registrar usuario';
+        this.loading = false;
+      }
+    });
   }
 }

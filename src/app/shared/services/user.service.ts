@@ -13,8 +13,14 @@ export class UserService {
     return this.http
     .get<any>(`${this.api}/users/user/list`)
     .pipe(
-      tap(res => console.log('Respuesta del backend:', res)),
+      tap(res => console.log('Respuesta del backend user.service:', res)),
       map(res => res.users)
     );
   }
+
+  registerUser(userData: any): Observable<any> {
+    return this.http
+    .post('/avi/users/user/register', userData);
+  }
+  
 }
