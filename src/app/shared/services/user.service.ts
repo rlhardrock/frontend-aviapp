@@ -20,7 +20,7 @@ export class UserService {
 
   registerUser(userData: any): Observable<any> {
     return this.http
-    .post('/avi/users/user/register', userData);
+    .post(`${this.api}/users/user/register`, userData);
   }
   
 }
