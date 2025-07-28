@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   standalone: true,
@@ -23,14 +24,31 @@ import { RouterModule } from '@angular/router';
         <p><strong>Fecha de nacimiento:</strong> {{ data?.dateBirth | date: 'longDate' }}</p>
       </div>
 
-      <a routerLink="/users" class="text-blue-600 underline">← Volver al listado</a>
+      <a routerLink="/users" (click)="clearStorage()" class="text-blue-600 underline"> Volver al listado</a>
+
     </div>
   `
 })
 export class UserResumenPage implements OnInit {
   data: any;
 
+  constructor(private userService: UserService) {}
+  
   ngOnInit() {
-    this.data = history.state;
+    // 1. Intentar obtener de history.state
+    if (history.state && Object.keys(history.state).length > 0) {
+      this.data = history.state;
+    } else {
+      // 2. Si no hay datos (por recarga), buscar en localStorage
+      const stored = localStorage.getItem('newUser');
+      if (stored) {
+        this.data = JSON.parse(stored);
+      }
+    }
   }
+
+  clearStorage() {
+    localStorage.removeItem('newUser');
+  }
+
 }
