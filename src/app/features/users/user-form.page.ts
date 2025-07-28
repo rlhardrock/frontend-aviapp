@@ -124,7 +124,6 @@ import { UserService } from '../../shared/services/user.service';
                   [disabled]="loading"
                   class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
                   {{ loading ? 'Registrando...' : 'Registrar usuario' }}
-            Guardar
           </button>
         </div>
 
