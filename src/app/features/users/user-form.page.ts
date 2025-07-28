@@ -119,7 +119,7 @@ import { UserService } from '../../shared/services/user.service';
         </div>
 
         <!-- Botón enviar -->
-        <div  *ngIf="error" class="md:col-span-2 mt-4">
+        <div class="md:col-span-2 mt-4">
           <button type="submit"
                   [disabled]="loading"
                   class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
