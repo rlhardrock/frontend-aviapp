@@ -136,7 +136,7 @@ import { UserService } from '../../shared/services/user.service';
 export class UserFormPage {
 
   userForm: FormGroup;
-  loading: false;
+  loading: boolean = false;
   error: string | null = null;
   
   constructor(
@@ -174,7 +174,7 @@ export class UserFormPage {
     this.userService.registerUser(this.userForm.value).subscribe({
       next: (res) => {
         console.log('Usuario creado:', res);
-        this.router.navigate(['/users']);
+        this.router.navigate(['/users/resume']);
       },
       error: (err) => {
         console.error('Error al registrar usuario:', err);
