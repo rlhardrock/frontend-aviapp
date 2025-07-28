@@ -173,7 +173,7 @@ export class UserFormPage {
     this.userService.registerUser(this.userForm.value).subscribe({
       next: (res) => {
         console.log('Usuario creado:', res);
-        this.router.navigate(['/users/resume']);
+        this.router.navigate(['/users/resumen']);
       },
       error: (err) => {
         console.error('Error al registrar usuario:', err);
