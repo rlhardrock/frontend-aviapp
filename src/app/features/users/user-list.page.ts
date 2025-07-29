@@ -48,7 +48,7 @@ import { UserListInter } from '../../interfaces/user-list-inter';
               <td class="p-3">{{ user.status }}</td>
               <td class="p-3 text-center">
                 <button disabled class="text-yellow-600 hover:underline">Editar</button>
-                <button (click)="deleteUser(user.id)" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">>Eliminar</button>
+                <button (click)="deleteUser(user.id)" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -114,7 +114,7 @@ export class UserListPage implements OnInit {
   } */
 
   deleteUser(id: string) {
-    if (!confirm('¿Estás seguro de que deseas eliminar este usuario?')) return;
+    if (!confirm('Seguro de eliminar este usuario?')) return;
   
     this.userService.deleteUser(id).subscribe({
       next: () => {
