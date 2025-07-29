@@ -42,7 +42,7 @@ import { CommonModule } from '@angular/common';
             </button>
         </form>
 
-        <a routerLink="/users" class="text-blue-600 underline mt-4 inline-block"> Volver</a>
+        <!-- <a routerLink="/users" class="text-blue-600 underline mt-4 inline-block"> Volver</a> -->
         
     </div>
 
@@ -82,7 +82,7 @@ export class UserEditPage implements OnInit {
       next: (res) => {
         console.log('Usuario actualizado:', res);
         localStorage.setItem('updateUser', JSON.stringify(res.updateUser));
-        this.router.navigate(['/users/resumen'], { state: res.updateUser })
+        this.router.navigate(['/users'], { state: res.updateUser })
       },
       error: err => {
         console.error('Error al actualizar:', err);
