@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { UserService } from '../../shared/services/user.service';
 import { UserListInter } from '../../interfaces/user-list-inter';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -47,7 +47,7 @@ import { UserListInter } from '../../interfaces/user-list-inter';
               <td class="p-3">{{ user.role }}</td>
               <td class="p-3">{{ user.status }}</td>
               <td class="p-3 text-center">
-                <button disabled class="text-yellow-600 hover:underline">Editar</button>
+                <button (click)="editUser(user.id)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Editar</button>
                 <button (click)="deleteUser(user.id)" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Eliminar</button>
               </td>
             </tr>
@@ -80,7 +80,10 @@ export class UserListPage implements OnInit {
   data: any = {};
   users: any[] = [];
   
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(){
     this.loadUsers();
@@ -113,6 +116,12 @@ export class UserListPage implements OnInit {
     });
   } */
 
+  editUser(user: any) {
+    this.router.navigate(['/users/edit', user.id], {
+      state: user  // pasamos datos por history.state
+    });
+  }
+    
   deleteUser(id: string) {
     if (!confirm('Seguro de eliminar este usuario?')) return;
   

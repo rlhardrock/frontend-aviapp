@@ -7,6 +7,7 @@ export const routes: Routes = [
     { path: 'users', loadComponent: () => import('./features/users/user-list.page').then(m => m.UserListPage) },
     { path: 'users/new', loadComponent: () => import('./features/users/user-form.page').then(m => m.UserFormPage) },
     { path: 'users/resumen', loadComponent: () => import('./features/users/user-resumen.page').then(m => m.UserResumenPage) },
+    { path: 'users/edit/:id', loadComponent: () => import('./features/users/user-edit.page').then(m => m.UserEditPage) },
     { path: 'professionals', loadComponent: () => import('./features/professionals/professional-list.page').then(m => m.ProfessionalListPage), },
     { path: 'professionals/new', loadComponent: () => import('./features/professionals/professional-form.page').then(m => m.ProfessionalFormPage), },
     { path: 'professionals/resumen', loadComponent: () => import('./features/professionals/professional-resumen.page').then(m => m.ProfessionalResumenPage), },
