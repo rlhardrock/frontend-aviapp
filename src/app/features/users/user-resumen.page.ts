@@ -10,7 +10,12 @@ import { UserService } from '../../shared/services/user.service';
   template: `
     <div class="p-6">
       <h2 class="text-2xl font-semibold mb-4">Resumen del usuario</h2>
-
+      <div class="mt-6 flex justify-between items-center">
+        <a routerLink="/dashboard"
+           class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+          Ir al Tablero de Mando
+        </a>
+      </div>
       <div class="bg-gray-100 p-4 rounded shadow mb-4 space-y-1">
         <p><strong>Licencia:</strong> {{ data?.licenseSup }}</p>
         <p><strong>Nombre:</strong> {{ data?.name }}</p>

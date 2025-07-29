@@ -18,7 +18,7 @@ import { Router, RouterModule } from '@angular/router';
           Registrar un Usuario «AviApp»
         </a>
         <a routerLink="/dashboard"
-           class="text-sm text-blue-600 underline hover:text-blue-800">
+           class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
           Ir al Tablero de Mando
         </a>
       </div>
