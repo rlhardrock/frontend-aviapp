@@ -9,10 +9,10 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'app-user-list',
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="mt-6 flex justify-between items-center">
+    <div class="p-6 ">
       <h2 class="text-2xl font-semibold mb-4">Listados de Usuarios</h2>
       <!-- Botón registrar -->
-      <div class="mt-6">
+      <div class="mt-6 flex justify-between items-center">
         <a routerLink="/users/new"
           class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
           Registrar un Usuario «AviApp»
