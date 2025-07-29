@@ -47,7 +47,7 @@ import { Router, RouterModule } from '@angular/router';
               <td class="p-3">{{ user.role }}</td>
               <td class="p-3">{{ user.status }}</td>
               <td class="p-3 text-center">
-                <button (click)="editUser(user.id)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Editar</button>
+                <button (click)="editUser(user)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Editar</button>
                 <button (click)="deleteUser(user.id)" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Eliminar</button>
               </td>
             </tr>
