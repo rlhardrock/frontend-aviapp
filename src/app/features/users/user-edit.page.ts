@@ -79,7 +79,11 @@ export class UserEditPage implements OnInit {
   onSubmit(): void {
     if (this.userForm.invalid) return;
     this.userService.updateUser(this.userId, this.userForm.value).subscribe({
-      next: () => this.router.navigate(['/users/resumen']),
+      next: (res) => {
+        console.log('Usuario actualizado:', res);
+        localStorage.setItem('updateUser', JSON.stringify(res.updateUser));
+        this.router.navigate(['/users/resumen'], { state: res.updateUser })
+      },
       error: err => {
         console.error('Error al actualizar:', err);
         alert('No se pudo actualizar el usuario.');

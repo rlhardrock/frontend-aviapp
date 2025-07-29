@@ -9,7 +9,7 @@ import { UserService } from '../../shared/services/user.service';
   imports: [CommonModule, RouterModule],
   template: `
     <div class="p-6">
-      <h2 class="text-2xl font-semibold mb-4">Resumen del nuevo usuario</h2>
+      <h2 class="text-2xl font-semibold mb-4">Resumen del usuario</h2>
 
       <div class="bg-gray-100 p-4 rounded shadow mb-4 space-y-1">
         <p><strong>Licencia:</strong> {{ data?.licenseSup }}</p>
