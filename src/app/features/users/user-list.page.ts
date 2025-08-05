@@ -14,11 +14,11 @@ import { Router, RouterModule } from '@angular/router';
       <!-- Botón registrar -->
       <div class="mt-6 flex justify-between items-center">
         <a routerLink="/users/new"
-          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          class="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-700">
           Registrar un Usuario «AviApp»
         </a>
         <a routerLink="/dashboard"
-           class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+           class="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-700">
           Ir al Tablero de Mando
         </a>
       </div>
@@ -35,7 +35,7 @@ import { Router, RouterModule } from '@angular/router';
               <th class="p-3">NIT</th>
               <th class="p-3">Email</th>
               <th class="p-3">Rol</th>
-              <th class="p-3">Estado</th>
+              <!-- <th class="p-3">Estado</th> -->
               <th class="p-3 text-center">Acciones</th>
             </tr>
           </thead>
@@ -49,10 +49,10 @@ import { Router, RouterModule } from '@angular/router';
               <td class="p-3">{{ user.taxpayer }}</td>
               <td class="p-3">{{ user.email }}</td>
               <td class="p-3">{{ user.role }}</td>
-              <td class="p-3">{{ user.status }}</td>
+              <!-- <td class="p-3">{{ user.status }}</td> -->
               <td class="p-3 text-center">
-                <button (click)="editUser(user)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Editar</button>
-                <button (click)="deleteUser(user.id)" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Eliminar</button>
+                <button (click)="editUser(user)" class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-600">Editar</button>
+                <button (click)="deleteUser(user.id)" class="bg-red-400 text-white px-2 py-1 rounded hover:bg-red-700">Eliminar</button>
               </td>
             </tr>
           </tbody>
