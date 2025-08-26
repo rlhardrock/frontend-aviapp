@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { TruckService } from './truck.service';
 
 @Component({
   standalone: true,
@@ -20,14 +22,46 @@ import { RouterModule } from '@angular/router';
         <p><strong>Remolque:</strong> {{ data?.trailer }}</p>
       </div>
 
-      <a routerLink="/trucks" class="text-blue-600 underline">← Volver al listado</a>
+      <a routerLink="/trucks" (click)="clearStorage()" class="text-blue-600 underline">Volver al listado</a>
     </div>
   `
 })
 export class TruckResumenPage implements OnInit {
   data: any;
 
+  constructor(
+    private route: ActivatedRoute,
+    private truckService: TruckService
+  ) {}
+
   ngOnInit() {
-    this.data = history.state;
+    // Intentar obtener de history.state
+    if (history.state && Object.keys(history.state).length > 0) {
+      // Guardar copia por si refresca
+      localStorage.setItem('newTruck', JSON.stringify(history.state));
+    } else {
+      // Si no hay datos (por recarga), buscar en localStorage
+      const stored = localStorage.getItem('newTruck');
+      if (stored) {
+        this.data = JSON.parse(stored);
+      } else {
+        // Si no hay algo en storage, solicitar al backend
+        const id = this.route.snapshot.paramMap.get('id');
+        if(id){
+          this.truckService.getTruckById(id).subscribe({
+            next: (truck: any) => {
+              this.data = truck;
+            },
+            error: (err) => {
+              console.error('Error al obtener camión:', err);
+            }
+          });
+        }
+      }
+    }
+  }
+
+  clearStorage() {
+    localStorage.removeItem('newTruck');
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../shared/services/user.service';
+import { UserService } from './user.service';
 import { UserListInter } from '../../interfaces/user-list-inter';
 import { Router, RouterModule } from '@angular/router';
 
@@ -17,6 +17,10 @@ import { Router, RouterModule } from '@angular/router';
           class="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-700">
           Registrar un Usuario «AviApp»
         </a>
+        <button (click)="logout()"
+          class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+          Cerrar sesión
+        </button>
         <a routerLink="/dashboard"
            class="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-700">
           Ir al Tablero de Mando
@@ -105,7 +109,11 @@ export class UserListPage implements OnInit {
     });
   }
 
-  
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+
   /* loadPagination() {
     this.userService.getUsers().subscribe({
       next: (res: any) => {
