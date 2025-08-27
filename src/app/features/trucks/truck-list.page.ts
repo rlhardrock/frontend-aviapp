@@ -131,11 +131,12 @@ export class TruckListPage implements OnInit {
     
     loadTrucks() {
       this.truckService.getTrucks().subscribe({
-        next: (trucks: any) => {
-          console.log('Respuesta del backend trucks-list:', trucks);
-          this.dataSource = trucks || [];
+        next: ( res: any ) => {
+          console.log('Respuesta del backend trucks-list:', res);
+          this.trucks = res || [];
+          this.dataSource = this.trucks || [];
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error('Error al obtener camiones:', err);
         }
       });
@@ -202,13 +203,13 @@ export class TruckListPage implements OnInit {
     }
 
     bulkUpload(trucks: any[]) {
-      this.truckService.bulkUploadTrucks(trucks).subscribe({
-        next: (res) => {
+      this.truckService.bulkInsert(trucks).subscribe({
+        next: (res: any) => {
           console.log('Carga masiva exitosa:', res);
           alert(`Se cargaron ${trucks.length} camiones.`);
           this.loadTrucks();
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error('Error en carga masiva:', err);
           alert('No se pudo cargar el archivo.');
         }
