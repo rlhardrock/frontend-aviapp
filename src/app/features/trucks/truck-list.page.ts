@@ -18,6 +18,7 @@ import * as Papa from 'papaparse';
             MatSortModule,
             MatFormFieldModule,
             MatInputModule,
+            MatTableDataSource
             ],
   template: `
     <div class="p-6">
@@ -133,8 +134,8 @@ export class TruckListPage implements OnInit {
       this.truckService.getTrucks().subscribe({
         next: ( res: any ) => {
           console.log('Respuesta del backend trucks-list:', res);
-          this.trucks = res || [];
-          this.dataSource = this.trucks || [];
+          this.trucks = res;
+          this.dataSource = new MatTableDataSource(res);
         },
         error: (err: any) => {
           console.error('Error al obtener camiones:', err);
