@@ -35,7 +35,7 @@ export class TruckService {
     return this.http.patch(`${this.api}/trucks/truck/id/${id}`, data);
   }
   
-  bulkUploadTrucks(data: any[]): Observable<any> {
-    return this.http.post(`${this.api}/trucks/truck/bulk-upload`, { trucks: data });
+  bulkUploadTrucks(trucks: any[]): Observable<any> {
+    return this.http.post(`${this.api}/trucks/truck/bulk-upload`, { trucks });
   }
 }

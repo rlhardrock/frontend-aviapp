@@ -172,19 +172,31 @@ export class TruckListPage implements OnInit {
 
     onFileSelected(event: any) {
       const file: File = event.target.files[0];
-      if (file) {
-        Papa.parse(file, {
-          header: true, // Usa encabezados del CSV
-          skipEmptyLines: true,
-          complete: (result) => {
-            console.log('CSV parseado:', result.data);
-            this.bulkUpload(result.data);
-          },
-          error: (err) => {
-            console.error('Error al parsear CSV:', err);
-          }
-        });
-      }
+      if (!file) return;
+  
+      Papa.parse(file, {
+        header: true, // usa encabezados de CSV como keys
+        skipEmptyLines: true,
+        complete: (result) => {
+          const trucks = result.data;
+          console.log('CSV Parseado:', trucks);
+  
+          this.truckService.bulkInsert(trucks).subscribe({
+            next: (res) => {
+              if (res.invalid && res.invalid.length > 0) {
+                alert(res.message); // alerta simple
+                console.warn('Errores encontrados:', res.invalid);
+              } else {
+                alert('Carga masiva completada con éxito');
+              }
+            },
+            error: (err) => {
+              console.error('Error al enviar CSV:', err);
+              alert('No se pudo procesar el archivo CSV.');
+            }
+          });
+        }
+      });
     }
 
     bulkUpload(trucks: any[]) {
