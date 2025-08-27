@@ -189,7 +189,7 @@ export class TruckListPage implements OnInit {
                 alert(res.message); // alerta simple
                 console.warn('Errores encontrados:', res.invalid);
               } else {
-                alert('Carga masiva completada con éxito');
+                alert(`Carga masiva completada con éxito, se insertaron: ${trucks.length - (res.invalid?.length || 0)} camiones`);
               }
             },
             error: (err: unknown) => {
