@@ -7,6 +7,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TruckService } from './truck.service';
+import * as Papa from 'papaparse';
 
 @Component({
   standalone: true,
@@ -170,19 +171,20 @@ export class TruckListPage implements OnInit {
       });
     }
 
-    onFileSelected(event: any) {
-      const file: File = event.target.files[0];
+    onFileSelected(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      const file: File | null = input.files?.[0] || null;
       if (!file) return;
   
       Papa.parse(file, {
         header: true, // usa encabezados de CSV como keys
         skipEmptyLines: true,
-        complete: (result) => {
-          const trucks = result.data;
+        complete: (result: Papa.ParseResult<any>) => {
+          const trucks: any[] = result.data;
           console.log('CSV Parseado:', trucks);
   
           this.truckService.bulkInsert(trucks).subscribe({
-            next: (res) => {
+            next: (res: {message: string; invalid?: any[]}) => {
               if (res.invalid && res.invalid.length > 0) {
                 alert(res.message); // alerta simple
                 console.warn('Errores encontrados:', res.invalid);
@@ -190,7 +192,7 @@ export class TruckListPage implements OnInit {
                 alert('Carga masiva completada con éxito');
               }
             },
-            error: (err) => {
+            error: (err: unknown) => {
               console.error('Error al enviar CSV:', err);
               alert('No se pudo procesar el archivo CSV.');
             }
