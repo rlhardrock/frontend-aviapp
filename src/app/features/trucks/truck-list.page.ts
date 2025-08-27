@@ -18,7 +18,6 @@ import * as Papa from 'papaparse';
             MatSortModule,
             MatFormFieldModule,
             MatInputModule,
-            MatTableDataSource
             ],
   template: `
     <div class="p-6">
