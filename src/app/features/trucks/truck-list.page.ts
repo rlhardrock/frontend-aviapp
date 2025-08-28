@@ -112,7 +112,11 @@ import * as Papa from 'papaparse';
         </table>
 
         <!-- Paginador -->
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+        <mat-paginator 
+            [length]="totalItems"
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 20]" 
+            showFirstLastButtons>
         </mat-paginator>
       </div>
     </div>
@@ -122,7 +126,8 @@ import * as Papa from 'papaparse';
 export class TruckListPage implements OnInit, AfterViewInit {
     displayedColumns: string[] = ['plate', 'brand', 'model', 'paint', 'trailer', 'actions'];
     dataSource= new MatTableDataSource<any>();
-    trucks: any[] = [];
+    totalItems= 0;
+    /* trucks: any[] = []; */
     
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;    
@@ -149,12 +154,12 @@ export class TruckListPage implements OnInit, AfterViewInit {
       this.dataSource.sort = this.sort;
     } */
     
-    loadTrucks(page: number, limit: number): void {
+    loadTrucks(page: number = 1, limit: number = 5): void {
       this.truckService.getTrucks(page, limit).subscribe({
         next: ( res: any ) => {
           console.log('Respuesta del backend trucks-list:', res);
           this.dataSource.data = res.trucks;
-          this.paginator.length = res.total;
+          this.totalItems = res.total;
           //this.dataSource = new MatTableDataSource(res);
         },
         error: (err: any) => {
