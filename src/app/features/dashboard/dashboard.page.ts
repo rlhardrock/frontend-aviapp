@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
@@ -40,6 +40,10 @@ export class DashboardPage {
     { name: 'Transportadores', route: 'transporters' },
     { name: 'Empresas', route: 'companies' },
   ];
+
+  constructor(
+    private router: Router
+  ) {}
 
   logout() {
     localStorage.clear();
