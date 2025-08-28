@@ -144,17 +144,12 @@ export class TruckListPage implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
       this.paginator.page.subscribe(( event ) => {
         console.warn('Paginator event: ', event);
+        const page = this.paginator.pageIndex + 1;
+        const limit = this.paginator.pageSize;
         this.loadTrucks(this.paginator.pageIndex + 1, this.paginator.pageSize)
       });  
     }
-
-    /* ngAfterViewInit(): void {
-      this.paginator.pageSize = 5;
-      this.paginator.pageSizeOptions =[5, 10, 15];
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    } */
-    
+   
     loadTrucks(page: number = 1, limit: number = 5): void {
       this.truckService.getTrucks(page, limit).subscribe({
         next: ( res: any ) => {
