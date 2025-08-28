@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -115,11 +115,11 @@ import * as Papa from 'papaparse';
   `
 })
 
-export class TruckListPage implements OnInit {
+export class TruckListPage implements OnInit, AfterViewInit {
     displayedColumns: string[] = ['plate', 'brand', 'model', 'paint', 'trailer', 'actions'];
     dataSource= new MatTableDataSource<any>();
     trucks: any[] = [];
-
+    
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;    
     
@@ -128,7 +128,7 @@ export class TruckListPage implements OnInit {
       private router: Router
     ) {}
   
-    ngOnInit(){
+    ngOnInit(): void{
       this.loadTrucks();
     }
 
