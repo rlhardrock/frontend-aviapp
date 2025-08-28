@@ -74,80 +74,19 @@ export class LoginPage {
     });
   }
 
+  loading = false;
+
   login() {
     if (this.form.invalid) return;
+    this.loading = true;
     this.authService.login(this.form.value.email, this.form.value.password).subscribe({
-      next: () => { this.router.navigate(['/dashboard']);},
+      next: () => { 
+        this.loading = false;
+        this.router.navigate(['/dashboard']);
+      },
       error: (err) => {
         this.errorMessage = 'Inicio de sesión fallido: ' + (err.error?.message || 'Credenciales incorrectas');
       },
     });
   }
 }
-
-/* login() {
-  const { email, password } = this.form.value;
-  if (this.authService.login(email!, password!)) {
-    this.router.navigate(['/dashboard']);
-  } else {
-    this.errorMessage = 'Credenciales inválidas';
-  }
-} */
-
-/* export class LoginPage {
-  form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required),
-  }); */
-
-/* export class LoginPage {
-  form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
-  });
-
-  errorMessage = '';  
-  
-  constructor(
-    private fb: FormBuilder,     
-    private http: HttpClient, 
-    private router: Router,
-    private authService: AuthService
-  ) {}
- */
-  /* onSubmit() {
-    const { email, password } = this.form.value;
-    const validEmail = 'sena2025@sena.com';
-    const validPassword = 'soysena123';
-
-    if (email === validEmail && password === validPassword) {
-      // Simular sesión
-      localStorage.setItem('token', 'fake-token');
-      this.router.navigate(['/dashboard']);
-    } else {
-      alert('Credenciales incorrectas');
-    } */
-
- /*  login() {
-    const { email, password } = this.form.value;
-    if (this.authService.login(email!, password!)) {
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.errorMessage = 'Credenciales inválidas';
-    }
-  } */
-/* } */
-  
-  /* onSubmit() {
-    if (this.form.invalid) return;
-
-    this.http.post<{ token: string }>('/avi/auth/login', this.form.value)
-      .subscribe({
-        next: (res) => {
-          localStorage.setItem('token', res.token);
-          this.router.navigate(['/dashboard']);
-        },
-        error: () => alert('Inicio de sesión fallido'),
-      });
-  }  */
-
