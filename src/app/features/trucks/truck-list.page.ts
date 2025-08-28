@@ -142,7 +142,8 @@ export class TruckListPage implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-      this.paginator.page.subscribe(() => {
+      this.paginator.page.subscribe(( event ) => {
+        console.warn('Paginator event: ', event);
         this.loadTrucks(this.paginator.pageIndex + 1, this.paginator.pageSize)
       });  
     }
@@ -162,9 +163,12 @@ export class TruckListPage implements OnInit, AfterViewInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.totalItems = res.total;
-          this.paginator.pageIndex = res.page - 1;
-          this.paginator.length = res.total;
           this.dataSource.data = res.trucks;
+          if(this.paginator){
+            this.paginator.length = res.total;
+            if(this.paginator.pageIndex !== res.page - 1)
+              this.paginator.pageIndex = res.page - 1;
+          }
         },
         error: (err: any) => {
           console.error('Error al obtener camiones:', err);
