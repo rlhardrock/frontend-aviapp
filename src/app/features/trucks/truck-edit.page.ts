@@ -60,7 +60,7 @@ export class TruckEditPage implements OnInit {
         model: [truck.model],
         paint: [truck.paint],
         year: [truck.year],
-        plate: [truck.email, [Validators.required]],
+        plate: [truck.plate, [Validators.required]],
         trailer: [truck.trailer],
       });
     });
