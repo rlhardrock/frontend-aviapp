@@ -64,7 +64,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
                   color="accent"
                   class="!w-5 !h-5">
                 </mat-progress-spinner>
-                Cargando...
+                <span>Cargando ...</span>
               </ng-template>
             </button>
           </form>
