@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -18,34 +18,42 @@ import * as Papa from 'papaparse';
             MatSortModule,
             MatFormFieldModule,
             MatInputModule,
+            RouterModule
             ],
   template: `
     <div class="p-6">
       <h2 class="text-2xl font-semibold mb-4">Listado de Camiones</h2>
       <!-- Botón registrar -->
-      <div class="mt-6">
-        <a routerLink="/trucks/new"
-          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      <div class="mt-6 flex flex-wrap gap-3">
+        <!-- Registrar nuevo camión -->
+        <button mat-raised-button [routerLink]="'/trucks/new'"
+                class="!bg-blue-600 !text-white hover:!bg-blue-700">
           Registrar nuevo camión
-        </a>
-        <button (click)="fileInput.click()"
-          class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+        </button>
+
+        <!-- Carga masiva de Camiones -->
+        <button mat-raised-button (click)="fileInput.click()"
+                class="!bg-purple-600 !text-white hover:!bg-purple-700">
           Carga masiva de Camiones
         </button>
         <input type="file" #fileInput accept=".csv" (change)="onFileSelected($event)" hidden>
-        <a routerLink="/dashboard"
-           class="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-700">
+
+        <!-- Ir al Tablero de Mando -->
+        <button mat-raised-button [routerLink]="'/dashboard'"
+                class="!bg-purple-500 !text-white hover:!bg-purple-700">
           Ir al Tablero de Mando
-        </a>
-        <button (click)="logout()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+        </button>
+
+        <!-- Cerrar Sesión -->
+        <button mat-raised-button (click)="logout()"
+                class="!bg-red-600 !text-white hover:!bg-red-700">
           Cerrar Sesión
         </button>
       </div>
+
       <br>
       <!-- Encabezado tipo tabla -->
       <div class="p-6">
-        <h2 class="text-2xl font-semibold mb-4">Listado de Camiones</h2>
-
         <!-- Buscador -->
         <mat-form-field appearance="outline" class="w-full mb-4">
           <mat-label>Buscar</mat-label>
@@ -53,7 +61,7 @@ import * as Papa from 'papaparse';
         </mat-form-field>
 
         <!-- Tabla -->
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-full">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-full rounded-lg overflow-hidden">
 
           <!-- Placa -->
           <ng-container matColumnDef="plate">
@@ -88,9 +96,9 @@ import * as Papa from 'papaparse';
           <!-- Acciones -->
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
-            <td mat-cell *matCellDef="let truck">
-              <button mat-button color="primary" (click)="editTruck(truck)">Editar</button>
-              <button mat-button color="warn" (click)="deleteTruck(truck.id)">Eliminar</button>
+            <td mat-cell *matCellDef="let truck" class="space-x-2">
+              <button mat-raised-button color="primary" (click)="editTruck(truck)">Editar</button>
+              <button mat-raised-button color="warn" (click)="deleteTruck(truck.id)">Eliminar</button>
             </td>
           </ng-container>
 
@@ -100,7 +108,7 @@ import * as Papa from 'papaparse';
         </table>
 
         <!-- Paginador -->
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
         </mat-paginator>
       </div>
     </div>
@@ -125,6 +133,8 @@ export class TruckListPage implements OnInit {
     }
 
     ngAfterViewInit() {
+      this.paginator.pageSize = 5;
+      this.paginator.pageSizeOptions =[5, 10, 15];
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
