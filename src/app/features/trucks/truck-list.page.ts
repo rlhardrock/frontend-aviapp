@@ -157,12 +157,12 @@ export class TruckListPage implements OnInit, AfterViewInit {
     loadTrucks(page: number = 1, limit: number = 5): void {
       this.truckService.getTrucks(page, limit).subscribe({
         next: ( res: any ) => {
-          console.log('Respuesta del backend trucks-list:', res);
           console.log('Respuesta del backend trucks-list:', res.trucks);
           this.dataSource.data = res.trucks;
           this.totalItems = res.total;
           this.paginator.pageIndex = res.page - 1;
           this.paginator.length = res.total;
+          this.dataSource.sort = this.sort;
           //this.dataSource = new MatTableDataSource(res);
         },
         error: (err: any) => {
