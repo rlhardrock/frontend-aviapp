@@ -71,8 +71,8 @@ export class TruckEditPage implements OnInit {
     this.truckService.updateTruck(this.truckId, this.truckForm.value).subscribe({
       next: (res) => {
         console.log('Camión actualizado:', res);
-        localStorage.setItem('updateTruck', JSON.stringify(res.updateUser));
-        this.router.navigate(['/trucks'], { state: res.updateUser })
+        localStorage.setItem('updateTruck', JSON.stringify(res.updateTruck));
+        this.router.navigate(['/trucks'], { state: res.updateTruck })
       },
       error: err => {
         console.error('Error al actualizar el camión, ', err);

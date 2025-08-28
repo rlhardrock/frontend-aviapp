@@ -17,6 +17,7 @@ export const routes: Routes = [
     { path: 'trucks', loadComponent: () => import('./features/trucks/truck-list.page').then(m => m.TruckListPage), },
     { path: 'trucks/new', loadComponent: () => import('./features/trucks/truck-form.page').then(m => m.TruckFormPage), },
     { path: 'trucks/resumen', loadComponent: () => import('./features/trucks/truck-resumen.page').then(m => m.TruckResumenPage), },
+    { path: 'trucks/edit/:id', loadComponent: () => import('./features/trucks/truck-edit.page').then(m => m.TruckEditPage) },
     { path: 'transporters', loadComponent: () => import('./features/transporters/transporter-list.page').then(m => m.TransporterListPage), },
     { path: 'transporters/new', loadComponent: () => import('./features/transporters/transporter-form.page').then(m => m.TransporterFormPage), },
     { path: 'transporters/resumen', loadComponent: () => import('./features/transporters/transporter-resumen.page').then(m => m.TransporterResumenPage), },
