@@ -6,6 +6,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { TruckService } from './truck.service';
 import * as Papa from 'papaparse';
 
@@ -18,39 +19,42 @@ import * as Papa from 'papaparse';
             MatSortModule,
             MatFormFieldModule,
             MatInputModule,
+            MatIconModule,
             RouterModule
             ],
   template: `
     <div class="p-6">
       <h2 class="text-2xl font-semibold mb-4">Listado de Camiones</h2>
-      <!-- Botón registrar -->
-      <div class="mt-6 flex flex-wrap gap-3">
+      <div class="mt-6 flex flex-wrap gap-4">
         <!-- Registrar nuevo camión -->
         <button mat-raised-button [routerLink]="'/trucks/new'"
-                class="!bg-blue-600 !text-white hover:!bg-blue-700">
+                class="!bg-blue-600 !text-white px-6 py-3 rounded-lg shadow-md text-lg font-semibold hover:!bg-blue-700 transition flex items-center gap-2">
+          <mat-icon>local_shipping</mat-icon>
           Registrar nuevo camión
         </button>
 
         <!-- Carga masiva de Camiones -->
         <button mat-raised-button (click)="fileInput.click()"
-                class="!bg-purple-600 !text-white hover:!bg-purple-700">
+                class="!bg-purple-600 !text-white px-6 py-3 rounded-lg shadow-md text-lg font-semibold hover:!bg-purple-700 transition flex items-center gap-2">
+          <mat-icon>cloud_upload</mat-icon>
           Carga masiva de Camiones
         </button>
         <input type="file" #fileInput accept=".csv" (change)="onFileSelected($event)" hidden>
 
         <!-- Ir al Tablero de Mando -->
         <button mat-raised-button [routerLink]="'/dashboard'"
-                class="!bg-purple-500 !text-white hover:!bg-purple-700">
+                class="!bg-green-600 !text-white px-6 py-3 rounded-lg shadow-md text-lg font-semibold hover:!bg-green-700 transition flex items-center gap-2">
+          <mat-icon>dashboard</mat-icon>
           Ir al Tablero de Mando
         </button>
 
         <!-- Cerrar Sesión -->
         <button mat-raised-button (click)="logout()"
-                class="!bg-red-600 !text-white hover:!bg-red-700">
+                class="!bg-red-600 !text-white px-6 py-3 rounded-lg shadow-md text-lg font-semibold hover:!bg-red-700 transition flex items-center gap-2">
+          <mat-icon>logout</mat-icon>
           Cerrar Sesión
         </button>
       </div>
-
       <br>
       <!-- Encabezado tipo tabla -->
       <div class="p-6">
@@ -97,8 +101,8 @@ import * as Papa from 'papaparse';
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let truck" class="space-x-2">
-              <button mat-raised-button color="primary" (click)="editTruck(truck)">Editar</button>
-              <button mat-raised-button color="warn" (click)="deleteTruck(truck.id)">Eliminar</button>
+              <button mat-raised-button class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg shadow-md transition" (click)="editTruck(truck)"> ✏️ Editar</button>
+              <button mat-raised-button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-md transition" (click)="deleteTruck(truck.id)"> 🗑️ Eliminar</button>
             </td>
           </ng-container>
 
@@ -128,23 +132,30 @@ export class TruckListPage implements OnInit, AfterViewInit {
       private router: Router
     ) {}
   
-    ngOnInit(): void{
-      this.loadTrucks();
+    ngOnInit(): void {
+      this.loadTrucks(1, 5);
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
+      this.paginator.page.subscribe(() => {
+        this.loadTrucks(this.paginator.pageIndex + 1, this.paginator.pageSize)
+      });  
+    }
+
+    /* ngAfterViewInit(): void {
       this.paginator.pageSize = 5;
       this.paginator.pageSizeOptions =[5, 10, 15];
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    }
+    } */
     
-    loadTrucks() {
-      this.truckService.getTrucks().subscribe({
+    loadTrucks(page: number, limit: number): void {
+      this.truckService.getTrucks(page, limit).subscribe({
         next: ( res: any ) => {
           console.log('Respuesta del backend trucks-list:', res);
-          this.trucks = res;
-          this.dataSource = new MatTableDataSource(res);
+          this.dataSource.data = res.trucks;
+          this.paginator.length = res.total;
+          //this.dataSource = new MatTableDataSource(res);
         },
         error: (err: any) => {
           console.error('Error al obtener camiones:', err);
@@ -217,7 +228,7 @@ export class TruckListPage implements OnInit, AfterViewInit {
         next: (res: any) => {
           console.log('Carga masiva exitosa:', res);
           alert(`Se cargaron ${trucks.length} camiones.`);
-          this.loadTrucks();
+          this.loadTrucks(this.paginator.pageIndex + 1, this.paginator.pageSize);
         },
         error: (err: any) => {
           console.error('Error en carga masiva:', err);

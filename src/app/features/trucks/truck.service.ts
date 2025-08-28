@@ -8,9 +8,9 @@ export class TruckService {
 
   constructor(private http: HttpClient) {}
 
-  getTrucks(): Observable<any> {
+  getTrucks(page: number, limit: number): Observable<any> {
     return this.http
-    .get<any>(`${this.api}/trucks/truck/list`)
+    .get<any>(`${this.api}/trucks/truck/list`, { params: {page, limit}})
     .pipe(
       tap(res => console.log('Respuesta del backend truck.service:', res)),
       map(res => res.trucks)
